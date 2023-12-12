@@ -1,0 +1,55 @@
+### 
+POST http://localhost:3000/api/storytelling HTTP/1.1
+Content-Type:application/json 
+
+{    
+    "nombre": "natalia",
+    "enlace": "nat@g",
+    "empresa": "jooorrr",
+    "mision": "comer empenadas",
+    "genero": "fem",
+    "protagonista": "la salud de las minas ",
+    "objetivo": "reclamar ",
+    "motivacion": "trabajo ",
+    "malo": " la tortuga ",
+    "ayudante": " caro",
+    "actitud": "paciente",
+    "mensaje": "siepre se puede",
+    "comportamiento": "amante",
+    "responseAI": ""
+}
+ 
+
+
+###
+GET http://localhost:3000/api/storytelling/ HTTP/1.1
+
+
+###
+GET http://localhost:3000/api/storytelling/65777dbf41fa8f6b7a53ad8e HTTP/1.1
+
+###
+
+PATCH  http://localhost:3000/api/storytelling/65777dbf41fa8f6b7a53ad8e HTTP/1.1
+Content-Type:application/json 
+
+{    
+    "nombre": "Silvana Barrios",
+    "enlace": "sil@g",
+    "empresa": "minisssss",
+    "mision": "super trabajadora ",
+    "genero": "masc",
+    "protagonista": "La familia",
+    "objetivo": "mejorar economicamente",
+    "motivacion": "La tranquilidad",
+    "malo": "la emision d moneda ",
+    "ayudante": "su familia",
+    "actitud": "perseverante",
+    "mensaje": "siepre se puede",
+    "comportamiento": "mago",
+    "responseAI": ""
+}
+
+
+###
+DELETE http://localhost:3000/api/storytelling/65777053a4f97765777dbf41fa8f6b7a53ad8e297021ccb HTTP/1.1
