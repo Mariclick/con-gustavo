@@ -53,11 +53,11 @@ const miModelo = new Schema({
     type: String,
     require: true,
   },
-  responseAI: {
+  responseAiText: {
     type: String,
     required: false
   },
-  responseAIdos: {
+  responseAiHash: {
       type: String,
       required: false
 }  

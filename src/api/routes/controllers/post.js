@@ -74,18 +74,48 @@ const archetypes = {
 
 const createUser = async (req, res) => {
   try {
-    const mongoResponse = await User.create(req.body);
+    
+    const delimitadores = /\$\$\$ (.*?) \$\$\$/g;
+    const regex = /\$\$\$.*?\$\$\$/g;
+    let match;
+    let saveMongo;
 
     // Promise.all
     const responseAi = await generateStory(req.body);
+    let responseAiText = responseAi.replace(regex, '');
+    let responseAiHash = [];
+    
+    while ((match = delimitadores.exec(responseAi)) !== null) {
+      responseAiHash.push(match[1]);
+    }
+    
+    if (responseAiHash.length > 0) {
+      req.body.responseAiHash = responseAiHash[0];
+    } else {
+      // Manejar el caso en el que no se encontraron coincidencias
+      console.error('No se encontraron coincidencias en responseAiHash');
+    }
 
-    res.status(201).json({
-      mongoResponse,
-      responseAi,
-    });
+  
+    req.body.responseAi = responseAi;
+    req.body.responseAiText = responseAiText;
+
+    const mongoResponse = await User.create(req.body);
+
+    if (mongoResponse) {
+      res.status(201).json({
+        status: "Creado",
+        responseAiText: responseAiText,
+        responseAiHash: req.body.responseAiHash,
+        mongoResponse,
+      });
+    } else {
+      // Si hubo algún problema al guardar en MongoDB, puedes manejarlo aquí
+      res.status(500).json({ message: "Error al guardar en la base de datos" });
+    }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "hay un error!?" });
+    res.status(400).json({ message: "Hay un error" });
   }
 };
 
@@ -132,10 +162,9 @@ async function generateStory(storyConfigs) {
 
     #########Forma##########:
 
-    Primero, escribe el storytelling 3 párrafos de 250 caracteres cada uno.
+    Primero, escribe sin titulo el storytelling con 750 caracteres. Acá no va el contenido para redes sociales, va en el segundo texto.
 
-    Segundo, escribe otro texto más corto de 180 caracteres conteniendo hashtags y emojis, para divulgación en las redes sociales de la misma narrativa. Este segunto texto ponlo entre $$$
-    `;
+    Segundo, escribe sin titulo otro texto más corto de 180 caracteres conteniendo hashtags y emojis, para divulgación en las redes sociales de la misma narrativa. Muy importante: este segunto texto para redes sociales debe de ir de último, comenzando con "$$$" y terminando con "$$$".`;
 
 
 
